@@ -33,7 +33,7 @@ The project uses the Spring Boot application framework. Spring Boot is an opinio
 
 ## Maven
 
-The project uses Maven as a dependency manager. All of Maven's configuration is found in pom.xml.
+The project uses Maven as a dependency manager. All of Maven's configuration is found in pom.xml. Maven expects code to be found in src/main/java and project resources to be in src/main/resources. Test code is found in src/main/test.
 
 ## Eclipse
 
