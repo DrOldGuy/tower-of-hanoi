@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.junit.jupiter.api.Test;
+import hanoi.model.TowerWriter;
 
 /**
  * This class tests the Tower of Hanoi game algorithm.
@@ -28,11 +29,10 @@ class HanoiPlayerTest {
     StringWriter stringWriter = new StringWriter();
 
     HanoiPlayer player = new HanoiPlayer();
-    player.towerHeight = towerHeight;
-    player.printWriter = new PrintWriter(stringWriter);
+    TowerWriter.setPrintWriter(new PrintWriter(stringWriter));
 
     // When: the tower is built and the disks are moved
-    player.playTowerOfHanoi();
+    player.playTowerOfHanoi(towerHeight);
 
     // Then: the number of moves is correct (2^n-1).
     assertThat(player.getNumMoves()).isEqualTo((int) Math.pow(2, towerHeight) - 1);

@@ -3,11 +3,14 @@
  */
 package hanoi;
 
+import java.io.PrintWriter;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import hanoi.game.HanoiPlayer;
+import hanoi.model.TowerWriter;
 
 /**
  * This class implements the Tower of Hanoi game using recursion. The game has some simple rules.
@@ -32,6 +35,12 @@ import hanoi.game.HanoiPlayer;
  */
 @SpringBootApplication
 public class TowerOfHanoi implements CommandLineRunner {
+  
+  /* Minimum and maximum tower height */
+  private static final int MIN_HEIGHT = 1;
+  private static final int MAX_HEIGHT = 10;
+  
+  private static final int DEF_HEIGHT = 3;
 
   /*
    * Spring detects the @Autowired annotation and automatically injects a managed Bean of type
@@ -56,7 +65,29 @@ public class TowerOfHanoi implements CommandLineRunner {
    */
   @Override
   public void run(String... args) throws Exception {
+    int towerHeight = DEF_HEIGHT;
+    PrintWriter printWriter = TowerWriter.getPrintWriter();
+    String lf = System.lineSeparator();
+    String def = "Setting tower height to default: " + towerHeight + lf;
+    String usage = "Usage: TowerOfHanoi <height>" + lf;
+
+    if(Objects.isNull(args) || args.length != 1) {
+      printWriter.println(usage + def);
+    }
+    else {
+      try {
+        towerHeight = Integer.parseInt(args[0]);
+
+        if(towerHeight < MIN_HEIGHT || towerHeight > MAX_HEIGHT) {
+          printWriter.println(usage + "Height must be between " + MIN_HEIGHT + " and " + MAX_HEIGHT);
+        }
+      }
+      catch (NumberFormatException e) {
+        printWriter.println(usage + def);
+      }
+    }
+
     /* The player object is called to set up and play the game. */
-    gamePlayer.playTowerOfHanoi();
+      gamePlayer.playTowerOfHanoi(towerHeight);
   }
 }

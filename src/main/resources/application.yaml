@@ -1,7 +1,3 @@
-# tower.height is the height of the tower.
-tower:
-  height: 3
-
 # This turns off the Spring Boot banner.
 spring:
   main:

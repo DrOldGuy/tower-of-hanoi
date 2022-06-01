@@ -23,7 +23,7 @@ There is a player class that performs the moves (class hanoi.game.HanoiPlayer).
 
 ## Runnable class
 
-Class hanoi.TowerOfHanoi contains the main method. This method starts Spring Boot in standalone (non-Web) mode. It then runs the game. It is difficult to read command-line arguments and pass them to Spring-managed Beans so the tower height is specified in src/main/resources/application.yaml.
+Class hanoi.TowerOfHanoi contains the main method. This method starts Spring Boot in standalone (non-Web) mode. It then runs the game. The tower height must be between 1 and 10. The height is passed as an argument to the application. If no arguments are passed to the application, the tower height is set to a default height of 3.
 
 # About the project
 

@@ -4,11 +4,10 @@
 package hanoi.game;
 
 import java.io.PrintWriter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import hanoi.misc.AccessibleByTest;
 import hanoi.model.HanoiTowers;
 import hanoi.model.Tower;
+import hanoi.model.TowerWriter;
 import lombok.Getter;
 
 /**
@@ -21,14 +20,6 @@ import lombok.Getter;
 @Component
 public class HanoiPlayer {
   /*
-   * A Writer is set up using the system console so that we can print pretty pictures in Unicode if
-   * desired. Actually, it should print just as well using a PrintStream. This illustrates the many
-   * design decisions that are made while developing an application. Some are better than others...
-   */
-  @AccessibleByTest
-  PrintWriter printWriter = new PrintWriter(System.out, true);
-
-  /*
    * This keeps track of the number of moves used by the system to solve the puzzle. It works out to
    * 2^n-1 where n is the height of the tower. A getter is provided by Lombok so that a test can be
    * used to see if the algorithm is working correctly. Note that the primitive instance variable is
@@ -37,22 +28,19 @@ public class HanoiPlayer {
   @Getter
   private int numMoves;
 
-  /*
-   * The attribute tower.height is read from application.yaml (in src/main/resources). Spring Boot
-   * loads application.yaml automatically, and when it encounters @Value in a managed Bean, it
-   * injects the value into the annotated variable.
-   */
-  @Value("${tower.height}")
-  @AccessibleByTest
-  int towerHeight;
-
   /* This contains the gameboard with the three towers. */
   private HanoiTowers towers;
+
+  /* This is used to save the tower height so that a test an read it after running the game. */
+  private int towerHeight;
 
   /**
    * Play the game Tower of Hanoi (or solve the puzzle, if you prefer).
    */
-  public void playTowerOfHanoi() {
+  public void playTowerOfHanoi(int towerHeight) {
+    PrintWriter printWriter = TowerWriter.getPrintWriter();
+
+    this.towerHeight = towerHeight;
     towers = new HanoiTowers(towerHeight);
 
     /* Print the tower in the initial state. */
@@ -76,7 +64,7 @@ public class HanoiPlayer {
    * This prints the state of all three towers as a semi-graphical image.
    */
   private void printGameState() {
-    printWriter.println(towers.toString());
+    TowerWriter.getPrintWriter().println(towers.toString());
   }
 
   /**
@@ -91,9 +79,10 @@ public class HanoiPlayer {
    * @param to The tower to move to.
    */
   private void prepareMove(int pos, Tower from, Tower other, Tower to) {
-    if (pos == 1) {
+    if(pos == 1) {
       performMove(pos, from, to);
-    } else {
+    }
+    else {
       prepareMove(pos - 1, from, to, other);
       performMove(pos, from, to);
       prepareMove(pos - 1, other, from, to);
@@ -110,10 +99,19 @@ public class HanoiPlayer {
   private void performMove(int pos, Tower from, Tower to) {
     to.push(from.pop());
 
-    printWriter.println("\nMoved disc " + pos + " from " + from.getTowerName() + " tower to "
-        + to.getTowerName() + " tower.");
+    TowerWriter.getPrintWriter().println("\nMoved disc " + pos + " from " + from.getTowerName()
+        + " tower to " + to.getTowerName() + " tower.");
 
     printGameState();
     numMoves++;
+  }
+
+  /**
+   * Returns the tower height (used in testing).
+   * 
+   * @return The tower height
+   */
+  public int getTowerHeight() {
+    return towerHeight;
   }
 }
