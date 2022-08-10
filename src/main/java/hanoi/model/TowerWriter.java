@@ -1,6 +1,7 @@
 package hanoi.model;
 
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 public class TowerWriter {
   /*
@@ -8,12 +9,13 @@ public class TowerWriter {
    * desired. Actually, it should print just as well using a PrintStream. This illustrates the many
    * design decisions that are made while developing an application. Some are better than others...
    */
-  private static PrintWriter printWriter = new PrintWriter(System.out, true);
+  private static PrintWriter printWriter =
+      new PrintWriter(System.out, true, StandardCharsets.UTF_8);
 
   public static PrintWriter getPrintWriter() {
     return printWriter;
   }
-  
+
   public static void setPrintWriter(PrintWriter pw) {
     printWriter = pw;
   }

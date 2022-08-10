@@ -72,8 +72,7 @@ public class HanoiTowers {
     for (int row = towerHeight - 1; row >= 0; row--) {
       builder.append(left.toString(row)).append(padding);
       builder.append(middle.toString(row)).append(padding);
-      builder.append(right.toString(row)).append(padding);
-      builder.append(System.lineSeparator());
+      builder.append(right.toString(row)).append(System.lineSeparator());
     }
 
     return builder.toString();

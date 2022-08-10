@@ -79,6 +79,9 @@ public class HanoiPlayer {
    * @param to The tower to move to.
    */
   private void prepareMove(int pos, Tower from, Tower other, Tower to) {
+//    System.out.println("pos=" + pos + ", from=" + from.getTowerName() + ", other="
+//        + other.getTowerName() + ", to=" + to.getTowerName());
+
     if(pos == 1) {
       performMove(pos, from, to);
     }

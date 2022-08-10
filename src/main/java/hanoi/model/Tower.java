@@ -21,7 +21,7 @@ import lombok.Getter;
 @SuppressWarnings("serial")
 public class Tower extends Stack<Disk> {
   /* This character represents a tower with no disk in the requested position. */
-  private static final String TOWER_CHAR = "‖";
+  private static final String TOWER_CHAR = "║";
 
   /*
    * Each tower has a name (i.e., "left", "middle", etc.). Lombok's @Getter annotation creates the
